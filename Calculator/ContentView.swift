@@ -40,9 +40,15 @@ enum CalcButton: String {
     }
 }
 
+enum Operation {
+    case add, subtract, multiply, divide, none
+}
+
 struct ContentView: View {
     
     @State var value = "0"
+    @State var runningNumber = 0
+    @State var currentOperation: Operation = .none
     
     let buttons: [[CalcButton]] = [
         [.clear, .negative, .percent, .divide],
@@ -95,8 +101,40 @@ struct ContentView: View {
     
     func didTap(button: CalcButton) {
         switch button {
-        case .add, .subtract, .divide, .multiply:
-            break
+        case .add, .subtract, .divide, .multiply, .equal:
+            if button == .add {
+                self.currentOperation = .add
+                self.runningNumber = Int(self.value) ?? 0
+            }
+            else if button == .subtract {
+                self.currentOperation = .subtract
+                self.runningNumber = Int(self.value) ?? 0
+            }
+            else if button == .multiply {
+                self.currentOperation = .multiply
+                self.runningNumber = Int(self.value) ?? 0
+            }
+            else if button == .divide {
+                self.currentOperation = .divide
+                self.runningNumber = Int(self.value) ?? 0
+            }
+            else if button == .equal {
+                let runningValue = self.runningNumber
+                let currentValue = Int(self.value) ?? 0
+                switch self.currentOperation {
+                case .add: self.value = "\(runningValue + currentValue)"
+                case .subtract: self.value = "\(runningValue - currentValue)"
+                case .multiply: self.value = "\(runningValue * currentValue)"
+                case .divide: self.value = "\(runningValue / currentValue)"
+                case .none:
+                    break
+                }
+            }
+            
+            if button != .equal {
+                self.value = "0"
+            }
+            
         case .clear:
             self.value = "0"
             break
