@@ -35,7 +35,7 @@ enum CalcButton: String {
         case .clear, .negative, .percent:
             return Color(.lightGray)
         default:
-            return .green
+            return Color(.darkGray)
         }
     }
 }
@@ -91,9 +91,9 @@ struct ContentView: View {
                                     .foregroundColor(.white)
                                     .cornerRadius(35)
                             })
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.bottom, 3)
                 }
             }
         }
@@ -154,7 +154,7 @@ struct ContentView: View {
     func buttonWidth(item: CalcButton) -> CGFloat {
         //return (XCUIScreen.main.bounds.width - (5 *  12)) / 4
         if item == .zero {
-            return 170
+            return 152
         }
         return 70
     }
